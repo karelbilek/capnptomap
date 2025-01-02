@@ -9,4 +9,52 @@ Unlike pogs, this is one-way only; it reads capnproto struct and makes a map, no
 
 It doesn't support interfaces and anypointers, simply because I don't understand them.
 
+Usage 
+---
+
+```go
+import (
+    "generatedcode"
+
+    "capnproto.org/go/capnp/v3"
+	"capnproto.org/go/capnp/v3/schemas"
+    
+    "github.com/karelbilek/capnptomap"
+
+    "gopkg.in/yaml.v3"
+)
+
+func main() {
+    // register the schema
+    generatedcode.RegisterSchema(schemas.DefaultRegistry)
+
+    // get the bytes, read them, parse them
+    b := getBytesFromSomewhere()
+    
+    protoMessage, err := capnp.Unmarshal(someBytes)
+    if err != nil {
+        panic(err)
+    }
+    protoFoo, err := generatedcode.ReadFoo(protoMessage)
+    if err != nil {
+        panic(err)
+    }
+    
+    // this is the actual call
+    mp, err := capnptomap.ToMap(schemas.DefaultRegistry, generatedcode.Foo_TypeID, capnp.Struct(protoFoo))
+    if err != nil {
+        panic(err)
+    }
+
+    // for example convert to yaml and print
+
+    yml, err := yaml.Marshal(mp)
+    if err != nil {
+        panic(err)
+    }
+
+    fmt.Println(string(yml))
+}
+```
+
 License - MIT, as go-capnp
