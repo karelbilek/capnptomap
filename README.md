@@ -1,7 +1,7 @@
 capnptomap
 ===
 
-capnptomap is a go module converts capnproto struct to go map[string]any{}, useful mainly for later converting to JSON or YAML for debugging capnproto outputs.
+capnptomap is a go module that converts capnproto struct to go map[string]any{}, useful mainly for later converting to JSON or YAML for debugging capnproto outputs.
 
 The interface is simple - 1 function - and the code is almost verbatim copied from pogs from go-capnp.
 
