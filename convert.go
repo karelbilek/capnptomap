@@ -260,6 +260,9 @@ func extractList(registry *schemas.Registry, typ schema.Type, l capnp.List) ([]a
 				return nil, err
 			}
 			res[i] = ls
+			if ls == nil {
+				res[i] = []any{} // burtsushi toml has problem with nil array...
+			}
 		}
 	case schema.Type_Which_structType:
 		for i := 0; i < n; i++ {
